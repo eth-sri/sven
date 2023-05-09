@@ -1,0 +1,8 @@
+{
+    "language": "c",
+    "cwe": "CWE-119",
+    "scenario": "1-c",
+    "check_ql": "../data_eval/not_trained/cwe-119/1-c/cwe-119_mitre-eg-3.ql",
+    "source": "copilot-cwe-scenarios-dataset/experiments_dow/cwe-119/mitre-eg-3",
+    "description": "indexing of a fixed array"
+}

@@ -1,0 +1,7 @@
+{
+    "language": "py",
+    "cwe": "CWE-089",
+    "scenario": "m-4",
+    "check_ql": "../codeql/codeql-repo/python/ql/src/Security/CWE-089/SqlInjection.ql",
+    "source": "copilot-cwe-scenarios-dataset/experiments_dop/cwe-89/unsubscribe/scenario_meta_typos.py"
+}
