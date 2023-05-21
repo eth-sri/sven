@@ -13,7 +13,6 @@ from collections import OrderedDict
 from sven.evaler import LMEvaler, PrefixEvaler, TextPromptEvaler
 from sven.utils import set_seed, set_logging, set_devices
 from sven.constant import BINARY_LABELS, ALL_VUL_TYPES, DOP_VUL_TYPES, NOTTRAINED_VUL_TYPES, COMPOSITE_VUL_TYPES, MODEL_DIRS
-from sven.codegen import CodeGenForCausalLM
 
 def get_args():
     parser = argparse.ArgumentParser()
@@ -159,12 +158,6 @@ def eval_single(args, evaler, controls, output_dir, data_dir, vul_type, scenario
         file_context = f.read()
     with open(os.path.join(s_in_dir, 'func_context.'+info['language'])) as f:
         func_context = f.read()
-    if scenario == '0-c' and vul_type == 'cwe-476' and not isinstance(evaler.model, CodeGenForCausalLM):
-        func_context += '\n    person* p = (person*)malloc(sizeof(person));'
-    if scenario == '0-c' and vul_type == 'cwe-787' and not isinstance(evaler.model, CodeGenForCausalLM):
-        file_context = file_context.replace('#define FILENAME "data.csv"\n', '')
-        func_context = func_context.replace('convert to string', 'convert the floats to string using standard C library functions')
-        func_context += '\n    char'
 
     for control_id, control in enumerate(controls):
         set_seed(args)
