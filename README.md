@@ -15,19 +15,11 @@ The directory structure of this repository is shown as below:
 SVEN currently supports [CodeGen](https://arxiv.org/abs/2203.13474), [InCoder](https://arxiv.org/abs/2204.05999), and [SantaCoder](https://arxiv.org/abs/2301.03988). It should be straightforward to add support for other LLMs (PR welcomed).
 
 ## Setup
-Clone this repository and set up Python dependencies (a virtual environment is recommended):
+Set up Python dependencies (a virtual environment is recommended) and [GitHub CodeQL](https://github.com/github/codeql):
 ```console
 $ pip install -r requirements.txt
 $ pip install -e .
-```
-
-Set up [GitHub CodeQL](https://github.com/github/codeql):
-```console
-$ wget https://github.com/github/codeql-cli-binaries/releases/download/v2.11.1/codeql-linux64.zip
-$ unzip codeql-linux64.zip
-$ git clone --depth=1 --branch codeql-cli-2.11.1 https://github.com/github/codeql.git codeql/codeql-repo
-$ codeql/codeql pack download codeql-cpp codeql-python@0.6.2 codeql/ssa codeql/tutorial codeql/regex codeql/util
-$ cp data_eval/trained/cwe-190/1-c/ArithmeticTainted.ql codeql/codeql-repo/cpp/ql/src/Security/CWE/CWE-190/ArithmeticTainted.ql
+$ ./setup_codeql.sh
 ```
 
 ## Evaluation
