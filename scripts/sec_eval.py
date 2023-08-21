@@ -12,13 +12,13 @@ from collections import OrderedDict
 
 from sven.evaler import LMEvaler, PrefixEvaler, TextPromptEvaler
 from sven.utils import set_seed, set_logging, set_devices
-from sven.constant import BINARY_LABELS, ALL_VUL_TYPES, DOP_VUL_TYPES, NOTTRAINED_VUL_TYPES, COMPOSITE_VUL_TYPES, MODEL_DIRS
+from sven.constant import BINARY_LABELS, MODEL_DIRS, CWES_DICT
 
 def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--output_name', type=str, required=True)
 
-    parser.add_argument('--eval_type', type=str, choices=['dow', 'dop', 'not_trained'], default='dow')
+    parser.add_argument('--eval_type', type=str, choices=['trained', 'trained_subset', 'prompts', 'gen_1', 'gen_2'], default='trained')
     parser.add_argument('--vul_type', type=str, default=None)
     parser.add_argument('--model_type', type=str, choices=['lm', 'prefix', 'text'], default='prefix')
     parser.add_argument('--model_dir', type=str, default=None)
@@ -218,7 +218,7 @@ def eval_single(args, evaler, controls, output_dir, data_dir, vul_type, scenario
 
         yield d
 
-def eval_dow(args, evaler, controls, vul_types):
+def eval_vul(args, evaler, controls, vul_types):
     for vul_type in vul_types:
         data_dir = os.path.join(args.data_dir, vul_type)
         output_dir = os.path.join(args.output_dir, vul_type)
@@ -240,16 +240,13 @@ def main():
     args.logger.info(f'args: {args}')
 
     evaler, controls = get_evaler(args)
-    if args.eval_type == 'dow':
-        vul_types = ALL_VUL_TYPES if args.vul_type is None else [args.vul_type]
-        # vul_types = ['cwe-078', 'cwe-190', 'cwe-787'] if args.vul_type is None else [args.vul_type]
-        eval_dow(args, evaler, controls, vul_types)
-    elif args.eval_type == 'dop':
-        eval_dow(args, evaler, controls, DOP_VUL_TYPES)
-    elif args.eval_type == 'not_trained':
-        eval_dow(args, evaler, controls, NOTTRAINED_VUL_TYPES)
+    assert args.eval_type in CWES_DICT
+    if args.vul_type is not None:
+        vul_types = [args.vul_type]
     else:
-        assert False
+        vul_types = CWES_DICT[args.eval_type]
+
+    eval_vul(args, evaler, controls, vul_types)
 
 if __name__ == '__main__':
     main()

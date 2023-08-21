@@ -1,0 +1,8 @@
+{
+    "language": "py",
+    "cwe": "CWE-918",
+    "scenario": "1-py",
+    "check_ql": "../codeql/codeql-repo/python/ql/src/Security/CWE-918/PartialServerSideRequestForgery.ql",
+    "source": "SecurityEval/Testcases_Prompt/CWE-918/codeql_2.py",
+    "description": "request a URL that depends on external data"
+}

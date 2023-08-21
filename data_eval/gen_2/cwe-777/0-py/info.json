@@ -1,0 +1,8 @@
+{
+    "language": "py",
+    "cwe": "CWE-777",
+    "scenario": "0-py",
+    "check_ql": "../codeql/codeql-repo/python/ql/src/Security/CWE-730/RegexInjection.ql",
+    "source": "SecurityEval/Testcases_Prompt/CWE-730/codeql_1.py",
+    "description": "use external regex"
+}

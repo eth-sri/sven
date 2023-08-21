@@ -9,7 +9,7 @@ from tqdm import tqdm
 from pathlib import Path
 
 from sven.utils import set_seed
-from sven.model import load_model
+from sven.model import load_model, XGLMForCausalLM, GPT2LMHeadCustomModel
 from sven.constant import PROMPTS, MODEL_DIRS
 from sven.human_eval.problem_yaml import Problem
 
@@ -88,7 +88,11 @@ def main():
                 prompt = PROMPTS[0] + prompt
             else:
                 prompt = PROMPTS[1] + prompt
+        if isinstance(model, GPT2LMHeadCustomModel):
+            prompt = prompt.strip()
         inputs = tokenizer(prompt, return_tensors='pt').to(device)
+        if isinstance(model, XGLMForCausalLM):
+            del inputs['token_type_ids']
         kwargs = dict()
         if args.model_type == 'prefix':
             if args.control == 'sec':

@@ -1,0 +1,7 @@
+{
+  "bos_token": "<|endoftext|>",
+  "model_max_length": 2048,
+  "name_or_path": "facebook/incoder-6B",
+  "special_tokens_map_file": "tokenizer/v2_trfs/special_tokens_map.json",
+  "tokenizer_class": "PreTrainedTokenizerFast"
+}

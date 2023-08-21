@@ -1,20 +1,18 @@
 # SVEN: Security Hardening and Adversarial Testing for Code LLMs
-SVEN enables controlling LLMs to generate secure (for security hardening) or unsafe code (for adversarial testing), while maintaining functional correctness. It achieves this by learning continuous prompts (or prefixes) with specialized loss terms on our curated dataset. SVEN currently supports [CodeGen LLMs](https://github.com/salesforce/CodeGen) but can be applicable to other LLMs. This repository contains SVEN's source code and trained prefixes, as well as training and evaluation data. For more technical details, check our [paper](https://arxiv.org/abs/2302.05319).
+SVEN enables controlling LLMs to generate secure (for security hardening) or unsafe code (for adversarial testing), while maintaining functional correctness. It achieves this by learning continuous prompts (or prefixes) with specialized loss terms on our curated dataset. This repository contains SVEN's source code and trained prefixes, as well as training and evaluation data. For more technical details, check our [paper](https://arxiv.org/abs/2302.05319).
 
 ## Directory Structure
 The directory structure of this repository is shown as below:
 ```
 .
-|-- data_train_val     # our curated dataset for training and validation (Table 1)
+|-- data_train_val     # our curated dataset for training and validation
 |-- data_eval          # datasets used for evaluation
-    |-- dow            # evaluation scenarios for our main CWEs (Table 2)
-    |-- dop            # evaluation scenarios for prompt perturbations (Figure 12)
-    |-- not_trained    # evaluation scenarios for CWEs unseen during training (Table 3)
-    |-- human_eval     # HumanEval benchmark from the MultiPL-E framework (Table 4)
 |-- sven               # SVEN's source code
 |-- scripts            # scripts for training and evaluation
-|-- trained            # trained prefixes for 350M, 2.7B, and 6.1B codegen-multi models
+|-- trained            # trained prefixes
 ```
+
+SVEN currently supports [CodeGen](https://arxiv.org/abs/2203.13474), [InCoder](https://arxiv.org/abs/2204.05999), and [SantaCoder](https://arxiv.org/abs/2301.03988). It should be straightforward to add support for other LLMs (PR welcomed).
 
 ## Setup
 Clone this repository and set up Python dependencies (a virtual environment is recommended):
@@ -29,14 +27,14 @@ $ wget https://github.com/github/codeql-cli-binaries/releases/download/v2.11.1/c
 $ unzip codeql-linux64.zip
 $ git clone --depth=1 --branch codeql-cli-2.11.1 https://github.com/github/codeql.git codeql/codeql-repo
 $ codeql/codeql pack download codeql-cpp codeql-python@0.6.2 codeql/ssa codeql/tutorial codeql/regex codeql/util
-$ cp data_eval/dow/cwe-190/1-c/ArithmeticTainted.ql codeql/codeql-repo/cpp/ql/src/Security/CWE/CWE-190/ArithmeticTainted.ql
+$ cp data_eval/trained/cwe-190/1-c/ArithmeticTainted.ql codeql/codeql-repo/cpp/ql/src/Security/CWE/CWE-190/ArithmeticTainted.ql
 ```
 
 ## Evaluation
 The evaluation consists of two parts: security and functional correctness. You should run the evaluation scripts under the `./scripts` directory. Make sure to use `CUDA_VISIBLE_DEVICES` to select the correct GPUs.
 
 ### Evaluation on Security
-To evaluate the security of the original LLM, run the command below. The model size `350m` can be replaced with `2b` or `6b`. See `sec_eval.py` for other options, such as using `--temp` to adjust temperature and using `--eval_type` to select the evaluation scenarios.
+To evaluate the security of the original LLM, run the command below. The model `350m` can be replaced by {`2b`, `6b`, `incoder`, `santa`}. See `sec_eval.py` for other options, such as using `--temp` to adjust temperature and using `--eval_type` to select the evaluation scenarios.
 ```console
 $ python sec_eval.py --model_type lm --model_dir 350m --output_name sec-eval-350m-lm
 ```
@@ -70,7 +68,7 @@ $ python print_results.py --eval_type human_eval --eval_dir ../experiments/human
 ```
 
 ## Training
-We have provided our trained models in `./trained`. To train SVEN yourself, run:
+We have provided our trained prefixes in `./trained`. To train SVEN yourself, run:
 ```console
 $ python train.py --output_name 350m-prefix-new --pretrain_dir 350m
 ```

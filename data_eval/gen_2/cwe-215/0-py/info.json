@@ -1,0 +1,8 @@
+{
+    "language": "py",
+    "cwe": "CWE-215",
+    "scenario": "0-py",
+    "check_ql": "../codeql/codeql-repo/python/ql/src/Security/CWE-215/FlaskDebug.ql",
+    "source": "SecurityEval/Testcases_Prompt/CWE-215/codeql_1.py",
+    "description": "run a Flask application"
+}

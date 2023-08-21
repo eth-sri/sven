@@ -1,0 +1,8 @@
+{
+    "language": "py",
+    "cwe": "CWE-020",
+    "scenario": "0-py",
+    "check_ql": "../codeql/codeql-repo/python/ql/src/Security/CWE-020/IncompleteHostnameRegExp.ql",
+    "source": "SecurityEval/Testcases_Prompt/CWE-020/codeql_3.py",
+    "description": "check URL validity and redirect"
+}

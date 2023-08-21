@@ -7,7 +7,7 @@ import scipy.stats
 from tabulate import tabulate
 from collections import OrderedDict
 
-from sven.constant import DOP_VUL_TYPES, NOTTRAINED_VUL_TYPES, VAL_SCENARIOS, ALL_VUL_TYPES
+from sven.constant import CWES_DICT, VAL_SCENARIOS
 
 class SecEvalRun:
     TOP_K = [1, 5, 10]
@@ -19,7 +19,7 @@ class SecEvalRun:
             for line in lines:
                 j = json.loads(line)
                 scenario = (cwe, j['scenario'])
-                if eval_type == 'dow':
+                if eval_type in ('trained', 'trained_subset'):
                     if split == 'val' and scenario not in VAL_SCENARIOS:
                         continue
                     elif split == 'test' and scenario in VAL_SCENARIOS:
@@ -55,22 +55,13 @@ def confidence_interval(data, confidence=0.95):
     return m-h, m+h
 
 class SecEval:
-    KEYS = ['sec_rate', 'sec_rate_1', 'sec_rate_5', 'sec_rate_10', 'sec', 'total', 'dup', 'non_parsed']
+    KEYS = ['sec_rate', 'sec', 'total', 'dup', 'non_parsed']
 
     def __init__(self, eval_dir, eval_type, vul_type, split):
         if vul_type is not None:
             vul_types = [vul_type]
         else:
-            if eval_type == 'dow':
-                vul_types = ALL_VUL_TYPES
-            elif eval_type == 'dop':
-                vul_types = DOP_VUL_TYPES
-            elif eval_type == 'not_trained':
-                vul_types = NOTTRAINED_VUL_TYPES
-            else:
-                assert False
-        # vul_types = ['cwe-125', 'cwe-476', 'cwe-787', 'cwe-190']
-        # vul_types = ['cwe-078', 'cwe-416', 'cwe-022', 'cwe-079']
+            vul_types = CWES_DICT[eval_type]
 
         self.runs = []
         if os.path.exists(os.path.join(eval_dir, eval_type)):

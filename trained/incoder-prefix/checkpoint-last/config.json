@@ -1,0 +1,30 @@
+{
+  "_name_or_path": "facebook/incoder-6B",
+  "activation_dropout": 0.0,
+  "activation_function": "gelu",
+  "architectures": [
+    "XGLMForCausalLM"
+  ],
+  "attention_dropout": 0.0,
+  "attention_heads": 32,
+  "bos_token_id": 0,
+  "d_model": 4096,
+  "decoder_start_token_id": 2,
+  "dropout": 0.0,
+  "eos_token_id": 2,
+  "ffn_dim": 16384,
+  "init_std": 0.02,
+  "layerdrop": 0.0,
+  "max_position_embeddings": 2049,
+  "model_type": "xglm",
+  "n_control": 2,
+  "n_prefix_token": 15,
+  "num_layers": 32,
+  "pad_token_id": 1,
+  "prefix_dropout": 0.1,
+  "scale_embedding": true,
+  "torch_dtype": "float32",
+  "transformers_version": "4.25.0",
+  "use_cache": true,
+  "vocab_size": 50518
+}

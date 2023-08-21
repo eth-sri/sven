@@ -1,0 +1,13 @@
+{
+  "additional_special_tokens": [
+    "<|endoftext|>",
+    "<fim-prefix>",
+    "<fim-middle>",
+    "<fim-suffix>",
+    "<fim-pad>"
+  ],
+  "bos_token": "<|endoftext|>",
+  "eos_token": "<|endoftext|>",
+  "pad_token": "<|endoftext|>",
+  "unk_token": "<|endoftext|>"
+}

@@ -5,7 +5,7 @@ import torch
 import random
 from torch.utils.data import Dataset
 
-from sven.constant import BINARY_LABELS, SEC_LABEL, VUL_LABEL, ALL_VUL_TYPES, PROMPTS
+from sven.constant import BINARY_LABELS, SEC_LABEL, VUL_LABEL, PROMPTS, CWES_TRAINED, CWES_TRAINED_SUBSET
 from sven.utils import get_indent
 
 class DatasetBase(Dataset):
@@ -13,7 +13,13 @@ class DatasetBase(Dataset):
         self.args = args
         self.tokenizer = tokenizer
         self.dataset = list()
-        vul_types = ALL_VUL_TYPES if self.args.vul_type is None else [self.args.vul_type]
+        if self.args.vul_type is not None:
+            vul_types = [self.args.vul_type]
+        else:
+            if 'incoder' in self.args.pretrain_dir:
+                vul_types = CWES_TRAINED_SUBSET
+            else:
+                vul_types = CWES_TRAINED
         for i, vul_type in enumerate(vul_types):
             with open(os.path.join(args.data_dir, mode, f'{vul_type}.jsonl')) as f:
                 lines = f.readlines()

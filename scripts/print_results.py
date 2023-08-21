@@ -6,7 +6,7 @@ from sven.metric import SecEval, FuncEval
 
 def get_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--eval_type', type=str, choices=['dow', 'dop', 'not_trained', 'human_eval'], default='dow')
+    parser.add_argument('--eval_type', type=str, choices=['trained', 'trained_subset', 'prompts', 'gen_1', 'gen_2', 'human_eval'], default='trained')
     parser.add_argument('--eval_dir', type=str, required=True)
     parser.add_argument('--vul_type', type=str, default=None)
     parser.add_argument('--split', type=str, choices=['val', 'test', 'all'], default='test')

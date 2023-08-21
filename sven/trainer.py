@@ -10,7 +10,6 @@ from transformers import AdamW, get_linear_schedule_with_warmup
 from sven.model import save_model, parallelize_model, load_model
 from sven.dataset import PrefixDataset, TextPromptDataset
 from sven.utils import set_seed
-from sven.constant import ALL_VUL_TYPES, PROMPTS
 
 class TrainerBase:
     def __init__(self, args):
@@ -200,10 +199,6 @@ class PrefixTrainer(TrainerBase):
                 p.requires_grad = False
         self.model.train()
 
-        if self.args.kl_loss_ratio != 0:
-            self.ref_model = load_model('lm', self.args.pretrain_dir, False, self.args)[1]
-            self.ref_model.eval()
-
     def load_dataset(self):
         self.dataset = PrefixDataset(self.args, self.tokenizer, 'train')
         self.val_dataset = PrefixDataset(self.args, self.tokenizer, 'val')
@@ -239,8 +234,10 @@ class PrefixTrainer(TrainerBase):
             kl_loss = 0
             if self.args.kl_loss_ratio != 0:
                 correct_log_probs = F.log_softmax(correct_logits, dim=-1)
+                self.model.eval()
                 with torch.no_grad():
-                    ref_logits, _ = get_logits_from_lm(self.ref_model, inputs, None)
+                    ref_logits, _ = get_logits_from_lm(self.model, inputs, None)
+                self.model.train()
                 ref_log_probs = F.log_softmax(ref_logits, dim=-1)
                 kl_loss += token_weighted_loss('kl', correct_log_probs, ref_log_probs, 1-shift_weights)
                 incorrect_log_probs = F.log_softmax(incorrect_logits, dim=-1)

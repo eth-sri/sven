@@ -12,19 +12,7 @@ from urllib.request import Request, urlopen
 from urllib.error import HTTPError
 from diff_match_patch import diff_match_patch
 
-from sven.constant import ALL_VUL_TYPES, PY_VUL_TYPES, CPP_VUL_TYPES
-
 logger = logging.getLogger()
-
-def set_vul_types(args):
-    if args.vul_type == 'all' or args.vul_type is None:
-        args.vul_types = ALL_VUL_TYPES
-    elif args.vul_type == 'py':
-        args.vul_types = PY_VUL_TYPES
-    elif args.vul_type == 'cpp':
-        args.vul_types = CPP_VUL_TYPES
-    else:
-        args.vul_types = [args.vul_type]
 
 def set_seed(args):
     random.seed(args.seed)
