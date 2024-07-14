@@ -68,11 +68,10 @@ $ python train.py --output_name 350m-prefix-new --pretrain_dir 350m
 ## Citation
 ```
 @article{sven-llm,
-  author    = {Jingxuan He and Martin Vechev},
-  title     = {Large Language Models for Code: Security Hardening and Adversarial Testing},
-  journal   = {CoRR},
-  volume    = {abs/2302.05319},
-  year      = {2023},
-  url       = {https://arxiv.org/abs/2302.05319},
+  author       = {Jingxuan He and Martin Vechev},
+  title        = {Large Language Models for Code: Security Hardening and Adversarial Testing},
+  booktitle    = {ACM CCS},
+  year         = {2023},
+  url          = {https://arxiv.org/abs/2302.05319},
 }
 ```
