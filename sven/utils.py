@@ -113,7 +113,7 @@ def get_url_content(url):
     try:
         f = urlopen(Request(url, headers={
                 'User-Agent':'Mozilla/5.0',
-                'Authorization': 'token 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',
+                'Authorization': 'token <YOUR TOKEN>',
                 'Content-Type':'application/json',
                 'Accept':'application/json'
             })).read()
